@@ -72,14 +72,14 @@ func InsertUser(user models.Users) error {
 }
 
 // SelectLastUserId 查询最后一个用户ID
-func SelectLastUserId() (int, error) {
+func SelectLastUserId() (int64, error) {
 	var (
 		err        error
 		row        *sql.Row
-		lastUserId int
+		lastUserId int64
 	)
 
-	row = db.QueryRow("SELECT user_id FROM users ORDER BY user_id LIMIT 1;")
+	row = db.QueryRow("SELECT user_id FROM users ORDER BY user_id DESC LIMIT 1;")
 	err = row.Scan(&lastUserId)
 	if err != nil {
 		return -1, err
@@ -87,8 +87,29 @@ func SelectLastUserId() (int, error) {
 	return lastUserId, nil
 }
 
+// SelectAllUsers 查询所有用户
+func SelectAllUsers() ([]models.Users, error) {
+	var (
+		err   error
+		rows  *sql.Rows
+		users []models.Users
+	)
+
+	rows, err = db.Query("SELECT * FROM users;")
+	for rows.Next() {
+		var user models.Users
+		err = rows.Scan(&user.UserId, &user.UserName, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
+		if err != nil {
+			return users, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
 // SelectUserById 根据用户ID查询用户
-func SelectUserById(userId int) (models.Users, error) {
+func SelectUserById(userId int64) (models.Users, error) {
 	var (
 		err  error
 		row  *sql.Row

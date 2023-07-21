@@ -21,6 +21,9 @@ func Register() error {
 	{
 		// 查询所有用户
 		usersRouter.GET("/QueryAllUsers", QueryAllUsers)
+
+		// 用户注册
+		usersRouter.POST("/UserRegister", UserRegister)
 	}
 
 	err := engine.Run("0.0.0.0:8080")

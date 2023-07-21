@@ -1,6 +1,14 @@
+# MYSQL配置
 mysql_config:
   host: "172.23.144.1"
   port: 3306
   database: "ctfe"
   username: "root"
   password: "123456"
+
+# REDIS配置
+redis_config:
+  host: "172.23.144.1"
+  port: 6379
+  database: 0
+  password: ""

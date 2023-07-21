@@ -7,6 +7,13 @@ import (
 	"net/http"
 )
 
+// UserRegister 用户注册
+func UserRegister(ctx *gin.Context) {
+	var resp models.Response
+
+	ctx.JSON(http.StatusOK, resp)
+}
+
 // QueryAllUsers 查询所有用户
 func QueryAllUsers(ctx *gin.Context) {
 	var resp models.Response

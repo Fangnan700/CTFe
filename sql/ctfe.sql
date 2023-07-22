@@ -11,18 +11,18 @@
  Target Server Version : 80033 (8.0.33)
  File Encoding         : 65001
 
- Date: 20/07/2023 17:00:42
+ Date: 22/07/2023 10:23:25
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ----------------------------
--- Create database ctfe
+-- Create database
 -- ----------------------------
-DROP DATABASE IF EXISTS ctfe;
-CREATE DATABASE ctfe CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE ctfe;
+DROP DATABASE IF EXISTS `ctfe`;
+CREATE DATABASE `ctfe` CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `ctfe`;
 
 -- ----------------------------
 -- Table structure for challenges
@@ -172,12 +172,12 @@ CREATE TABLE `scores`
 DROP TABLE IF EXISTS `solved`;
 CREATE TABLE `solved`
 (
-    `solved_id`      bigint    NOT NULL,
+    `solved_id`      bigint NOT NULL,
     `solved_time`    bigint NOT NULL,
-    `competition_id` bigint    NOT NULL,
-    `challenge_id`   bigint    NOT NULL,
-    `group_id`       bigint    NOT NULL,
-    `user_id`        bigint    NOT NULL,
+    `competition_id` bigint NOT NULL,
+    `challenge_id`   bigint NOT NULL,
+    `group_id`       bigint NOT NULL,
+    `user_id`        bigint NOT NULL,
     `solved_score`   int    NOT NULL,
     PRIMARY KEY (`solved_id`) USING BTREE,
     INDEX `solved_competition_id` (`competition_id` ASC) USING BTREE,
@@ -201,6 +201,7 @@ CREATE TABLE `users`
 (
     `user_id`     bigint                                                        NOT NULL,
     `user_name`   varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL,
+    `user_pwd`    varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `user_sex`    varchar(4) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci   NOT NULL,
     `email`       varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
     `phone`       varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
@@ -214,3 +215,9 @@ CREATE TABLE `users`
   ROW_FORMAT = DYNAMIC;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Init data
+-- ----------------------------
+INSERT INTO users (user_id, user_name, user_pwd, user_sex, email, phone, school, student_num, create_time)
+VALUES ('100000', 'init', 'init', 'init', 'init', 'init', 'init', 'init', 0);

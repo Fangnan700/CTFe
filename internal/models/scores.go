@@ -1,8 +1,8 @@
 package models
 
 type Scores struct {
-	ScoreId       int64 `mapstructure:"score_id"`
-	CompetitionId int64 `mapstructure:"competition_id"`
-	GroupId       int64 `mapstructure:"group_id"`
-	TotalScore    int   `mapstructure:"total_score"`
+	ScoreId       int64 `json:"score_id"`
+	CompetitionId int64 `json:"competition_id"`
+	GroupId       int64 `json:"group_id"`
+	TotalScore    int   `json:"total_score"`
 }

@@ -8,6 +8,13 @@ import (
 )
 
 func GlobalMiddleWare(ctx *gin.Context) {
+	// 白名单
+	var whiteList []string
+	whiteList = []string{
+		"users/UserLogin",
+		"users/UserRegister",
+	}
+
 	// 检测cookies状态
 	ctfeToken, err := ctx.Cookie("ctfe_token")
 	if err != nil {
@@ -17,10 +24,13 @@ func GlobalMiddleWare(ctx *gin.Context) {
 		ctx.SetCookie("ctfe_token", ctfeToken, 36000, "/", "", false, true)
 	}
 
-	// 检测白名单
+	// 检查白名单
 	path := ctx.Request.URL.Path
-	if path == "/users/UserRegister" {
-		ctx.Next()
+	for _, white := range whiteList {
+		if path == white {
+			ctx.Next()
+			return
+		}
 	}
 
 	ctfeTokenStatus := redis.GetCTFeToken(ctfeToken)

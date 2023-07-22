@@ -54,13 +54,13 @@ func InsertUser(user models.Users) error {
 	}
 
 	//准备sql语句
-	stmt, err = tx.Prepare("INSERT INTO users (user_id, user_name, user_sex, email, phone, school, student_num, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?);")
+	stmt, err = tx.Prepare("INSERT INTO users (user_id, user_name, user_pwd, user_sex, email, phone, school, student_num, create_time) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);")
 	if err != nil {
 		return err
 	}
 
 	//设置参数以及执行sql语句
-	_, err = stmt.Exec(user.UserId, user.UserName, user.UserSex, user.Email, user.Phone, user.School, user.StudentNum, user.CreateTime)
+	_, err = stmt.Exec(user.UserId, user.UserName, user.UserPwd, user.UserSex, user.Email, user.Phone, user.School, user.StudentNum, user.CreateTime)
 	if err != nil {
 		return err
 	}
@@ -98,7 +98,7 @@ func SelectAllUsers() ([]models.Users, error) {
 	rows, err = db.Query("SELECT * FROM users;")
 	for rows.Next() {
 		var user models.Users
-		err = rows.Scan(&user.UserId, &user.UserName, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
+		err = rows.Scan(&user.UserId, &user.UserName, &user.UserPwd, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
 		if err != nil {
 			return users, err
 		}
@@ -117,7 +117,7 @@ func SelectUserById(userId int64) (models.Users, error) {
 	)
 
 	row = db.QueryRow("SELECT * FROM users WHERE user_id = ?;", userId)
-	err = row.Scan(&user.UserId, &user.UserName, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
+	err = row.Scan(&user.UserId, &user.UserName, &user.UserPwd, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
 	if err != nil {
 		return user, err
 	}

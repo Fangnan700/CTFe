@@ -24,6 +24,9 @@ func Register() error {
 
 		// 用户注册
 		usersRouter.POST("/UserRegister", UserRegister)
+
+		// 用户登录
+		usersRouter.POST("/UserLogin", UserLogin)
 	}
 
 	err := engine.Run("0.0.0.0:8080")

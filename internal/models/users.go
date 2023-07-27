@@ -4,6 +4,7 @@ type Users struct {
 	UserId     int64  `json:"user_id"`
 	UserName   string `json:"user_name"`
 	UserPwd    string `json:"user_pwd"`
+	UserPwd2   string `json:"user_pwd_2"`
 	UserSex    string `json:"user_sex"`
 	Email      string `json:"email"`
 	Phone      string `json:"phone"`

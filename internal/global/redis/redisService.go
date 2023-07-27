@@ -31,16 +31,14 @@ func Remove(key string) {
 	rdb.Del(key)
 }
 
-// SetCTFeToken 设置CTFeToken状态
-func SetCTFeToken(ctfeToken string, status int) {
+// SetCTFeTokenStatus 设置CTFeToken状态
+func SetCTFeTokenStatus(ctfeToken string, status int) {
 	err := rdb.Set(ctfeToken, status, 0)
-	if err != nil {
-
-	}
+	fmt.Println(err)
 }
 
-// GetCTFeToken 获取CTFeToken状态
-func GetCTFeToken(ctfeToken string) int {
+// GetCTFeTokenStatus 获取CTFeToken状态
+func GetCTFeTokenStatus(ctfeToken string) int {
 	result, _ := rdb.Get(ctfeToken).Result()
 	status, _ := strconv.Atoi(result)
 	return status

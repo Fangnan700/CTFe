@@ -1,42 +1,43 @@
 package middleware
 
 import (
-	"CTFe/internal/global/redis"
-	"CTFe/internal/utils"
+	"CTFe/internal/models"
+	"CTFe/internal/server"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
 
 func GlobalMiddleWare(ctx *gin.Context) {
-	// 白名单
-	var whiteList []string
-	whiteList = []string{
-		"users/UserLogin",
-		"users/UserRegister",
-	}
+	var (
+		err       error
+		ctfeToken string
+	)
 
-	// 检测cookies状态
-	ctfeToken, err := ctx.Cookie("ctfe_token")
-	if err != nil {
-		redis.Remove(ctfeToken)
-		ctfeToken = utils.GetUUID()
-		redis.SetCTFeToken(ctfeToken, 0)
-		ctx.SetCookie("ctfe_token", ctfeToken, 36000, "/", "", false, true)
+	// 检查路由白名单
+	pathWhiteList := []string{
+		"/users/GetCookies",
+		"/users/UserRegister",
+		"/users/UserLogin",
 	}
-
-	// 检查白名单
-	path := ctx.Request.URL.Path
-	for _, white := range whiteList {
-		if path == white {
+	for _, path := range pathWhiteList {
+		if path == ctx.FullPath() {
+			// 检查cookies是否设置
+			ctfeToken, err = ctx.Cookie("ctfe_token")
+			if err != nil {
+				ctx.JSON(http.StatusForbidden, models.NewResponse(-1, "Cookie未设置"))
+				ctx.Abort()
+				return
+			}
 			ctx.Next()
 			return
 		}
 	}
 
-	ctfeTokenStatus := redis.GetCTFeToken(ctfeToken)
-
-	// 未授权，重定向至登录页面
-	if ctfeTokenStatus != 1 {
-		ctx.Redirect(http.StatusMovedPermanently, "https://www.baidu.com")
+	// 检查登录状态
+	ctfeTokenStatus := server.GetCTFeTokenStatus(ctfeToken)
+	if ctfeTokenStatus == 0 {
+		ctx.JSON(http.StatusForbidden, models.NewResponse(0, "未登录"))
+		ctx.Abort()
+		return
 	}
 }

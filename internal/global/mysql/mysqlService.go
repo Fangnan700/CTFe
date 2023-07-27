@@ -124,3 +124,20 @@ func SelectUserById(userId int64) (models.Users, error) {
 
 	return user, nil
 }
+
+// SelectUserByEmailOrPhone 根据用户邮箱/手机查询用户
+func SelectUserByEmailOrPhone(email string, phone string) (models.Users, error) {
+	var (
+		err  error
+		row  *sql.Row
+		user models.Users
+	)
+
+	row = db.QueryRow("SELECT * FROM users WHERE email = ? OR phone = ?;", email, phone)
+	err = row.Scan(&user.UserId, &user.UserName, &user.UserPwd, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
+}

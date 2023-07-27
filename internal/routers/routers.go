@@ -19,14 +19,17 @@ func Register() error {
 	// 用户相关的路由
 	usersRouter = engine.Group("/users")
 	{
+		// 获取cookie
+		usersRouter.GET("/GetCookies", GetCookies)
+
 		// 查询所有用户
 		usersRouter.GET("/QueryAllUsers", QueryAllUsers)
 
 		// 用户注册
-		usersRouter.POST("/UserRegister", UserRegister)
+		usersRouter.POST("/UserRegister", middleware.SecurityMiddleWare, UserRegister)
 
 		// 用户登录
-		usersRouter.POST("/UserLogin", UserLogin)
+		usersRouter.POST("/UserLogin", middleware.SecurityMiddleWare, UserLogin)
 	}
 
 	err := engine.Run("0.0.0.0:8080")

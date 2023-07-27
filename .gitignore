@@ -19,3 +19,9 @@
 
 # Go workspace file
 go.work
+
+# idea
+.idea
+
+# doc's backup file
+*.bkp

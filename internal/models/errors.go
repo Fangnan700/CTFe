@@ -3,7 +3,7 @@ package models
 import "fmt"
 
 type CTFeError struct {
-	Code    int // 0：输入为空  -1：其它异常  -2：注册异常  -3：登录异常
+	Code    int // 0：输入为空  -1：其它异常  -2：注册异常  -3：登录异常  -4：查询异常  -5：权限异常
 	Message string
 	Content interface{}
 }

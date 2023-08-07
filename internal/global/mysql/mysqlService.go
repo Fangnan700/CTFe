@@ -87,15 +87,15 @@ func SelectLastUserId() (int64, error) {
 	return lastUserId, nil
 }
 
-// SelectAllUsers 查询所有用户
-func SelectAllUsers() ([]models.Users, error) {
+// SelectUsers 查询用户
+func SelectUsers(keyword interface{}) ([]models.Users, error) {
 	var (
 		err   error
 		rows  *sql.Rows
 		users []models.Users
 	)
 
-	rows, err = db.Query("SELECT * FROM users;")
+	rows, err = db.Query("SELECT * FROM users WHERE user_id LIKE ? OR user_name LIKE ? OR email LIKE ? OR phone LIKE ? OR school LIKE ? OR student_num LIKE ?", keyword, keyword, keyword, keyword, keyword, keyword)
 	for rows.Next() {
 		var user models.Users
 		err = rows.Scan(&user.UserId, &user.UserName, &user.UserPwd, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
@@ -108,8 +108,29 @@ func SelectAllUsers() ([]models.Users, error) {
 	return users, nil
 }
 
-// SelectUserById 根据用户ID查询用户
-func SelectUserById(userId int64) (models.Users, error) {
+// SelectAllUsers 查询所有用户
+func SelectAllUsers() ([]models.Users, error) {
+	var (
+		err   error
+		rows  *sql.Rows
+		users []models.Users
+	)
+
+	rows, err = db.Query("SELECT * FROM users ORDER BY user_id LIMIT 1, 65536;")
+	for rows.Next() {
+		var user models.Users
+		err = rows.Scan(&user.UserId, &user.UserName, &user.UserPwd, &user.UserSex, &user.Email, &user.Phone, &user.School, &user.StudentNum, &user.CreateTime)
+		if err != nil {
+			return users, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
+// SelectUserById 根据用户id查询
+func SelectUserById(userId interface{}) (models.Users, error) {
 	var (
 		err  error
 		row  *sql.Row
@@ -125,8 +146,8 @@ func SelectUserById(userId int64) (models.Users, error) {
 	return user, nil
 }
 
-// SelectUserByEmailOrPhone 根据用户邮箱/手机查询用户
-func SelectUserByEmailOrPhone(email string, phone string) (models.Users, error) {
+// SelectUserByEmailOrPhone 根据用户邮箱/手机查询
+func SelectUserByEmailOrPhone(email interface{}, phone interface{}) (models.Users, error) {
 	var (
 		err  error
 		row  *sql.Row
@@ -140,4 +161,16 @@ func SelectUserByEmailOrPhone(email string, phone string) (models.Users, error) 
 	}
 
 	return user, nil
+}
+
+// UpdateUser 更新用户信息
+func UpdateUser(users models.Users) error {
+	_, err := db.Exec("UPDATE users SET user_name = ?, user_pwd = ?, user_sex = ?, email = ?, phone = ?, school = ?, student_num = ? WHERE user_id = ?", users.UserName, users.UserPwd, users.UserSex, users.Email, users.Phone, users.School, users.StudentNum, users.UserId)
+	return err
+}
+
+// DeleteUser 删除用户
+func DeleteUser(userId interface{}) error {
+	_, err := db.Exec("DELETE FROM users WHERE user_id = ?", userId)
+	return err
 }

@@ -15,17 +15,32 @@ func SelectLastUserId() (int64, error) {
 	return mysql.SelectLastUserId()
 }
 
+// SelectUsers 查询用户
+func SelectUsers(keyword interface{}) ([]models.Users, error) {
+	return mysql.SelectUsers(keyword)
+}
+
 // SelectAllUsers 查询所有用户
 func SelectAllUsers() ([]models.Users, error) {
 	return mysql.SelectAllUsers()
 }
 
-// SelectUserById 根据用户ID查询用户
-func SelectUserById(userId int64) (models.Users, error) {
+// SelectUserById 根据用户id查询
+func SelectUserById(userId interface{}) (models.Users, error) {
 	return mysql.SelectUserById(userId)
 }
 
 // SelectUserByEmailOrPhone 根据用户邮箱/手机查询用户
-func SelectUserByEmailOrPhone(email string, phone string) (models.Users, error) {
+func SelectUserByEmailOrPhone(email interface{}, phone interface{}) (models.Users, error) {
 	return mysql.SelectUserByEmailOrPhone(email, phone)
+}
+
+// UpdateUser 更新用户信息
+func UpdateUser(user models.Users) error {
+	return mysql.UpdateUser(user)
+}
+
+// DeleteUser 删除用户
+func DeleteUser(userId interface{}) error {
+	return mysql.DeleteUser(userId)
 }

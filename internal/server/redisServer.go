@@ -11,3 +11,8 @@ func GetCTFeTokenStatus(ctfeToken string) int {
 func SetCTFeTokenStatus(ctfeToken string, status int) {
 	redis.SetCTFeTokenStatus(ctfeToken, status)
 }
+
+// RemoveCTFeTokenStatus 删除用户登录状态
+func RemoveCTFeTokenStatus(ctfeToken string) {
+	redis.Remove(ctfeToken)
+}

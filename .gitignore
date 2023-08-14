@@ -20,8 +20,8 @@
 # Go workspace file
 go.work
 
-# idea
-.idea
+# Log file
+*.log
 
-# doc's backup file
-*.bkp
+# Some folders
+.idea

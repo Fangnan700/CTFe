@@ -1,15 +1,11 @@
 package main
 
 import (
-	"CTFe/internal/routers"
-	"fmt"
+	"CTFe/server/initialize"
+	"CTFe/server/router"
 )
 
 func main() {
-	var err error
-
-	err = routers.Register()
-	if err != nil {
-		fmt.Println(err)
-	}
+	initialize.Init()
+	router.Start()
 }

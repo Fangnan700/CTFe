@@ -1,6 +1,11 @@
+# 服务配置
+server_config:
+  host: "0.0.0.0"
+  port: 8888
+
 # MYSQL配置
 mysql_config:
-  host: "172.23.144.1"
+  host: "172.28.16.1"
   port: 3306
   database: "ctfe"
   username: "root"
@@ -8,7 +13,7 @@ mysql_config:
 
 # REDIS配置
 redis_config:
-  host: "172.23.144.1"
+  host: "172.28.16.1"
   port: 6379
   database: 0
   password: ""

@@ -137,12 +137,15 @@ CREATE TABLE `ctfe_participation`
     `participation_id` bigint  NOT NULL,
     `group_id`         bigint  NOT NULL,
     `user_id`          bigint  NOT NULL,
+    `competition_id`   bigint  NOT NULL,
     `is_admin`         tinyint NOT NULL,
     PRIMARY KEY (`participation_id`) USING BTREE,
     INDEX `participation_group` (`group_id` ASC) USING BTREE,
     INDEX `participation_user` (`user_id` ASC) USING BTREE,
+    INDEX `participation_competition` (`competition_id` ASC) USING BTREE,
     CONSTRAINT `participation_group` FOREIGN KEY (`group_id`) REFERENCES `ctfe_group` (`group_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT `participation_user` FOREIGN KEY (`user_id`) REFERENCES `ctfe_user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT `participation_user` FOREIGN KEY (`user_id`) REFERENCES `ctfe_user` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT `participation_competition` FOREIGN KEY (`competition_id`) REFERENCES `ctfe_competition` (`competition_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_general_ci
